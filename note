@@ -1,0 +1,14 @@
+
+
+创建提供者工程
+    使用MySQL，使用Spring Data JPA作为持久层。
+
+    比如 我虽然在Maven中 reImport了，但有些包还是找不到，则需要手动 在右侧 Dependencies 找到对应的第三方包，右键 DownloadSource
+        这里我在写 yaml 时，就找不到 druid 和 mysql-connector-java
+
+    测试接口是否正常，可以使用以前用的 Postman，也可以使用 Chrome的插件 Restlet Client，下载后，解压，然后将 .crx 拖到 chrome://extensions/ 即可使用。
+
+创建消费者工程
+    使用什么调用方式呢？
+        不是Dubbo，没使用Spring Cloud，没定义自己的 RPC
+        用 RestTemplate
