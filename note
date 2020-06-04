@@ -1,4 +1,4 @@
-
+=====2020-06-03=====
 
 创建提供者工程
     使用MySQL，使用Spring Data JPA作为持久层。
@@ -12,3 +12,30 @@
     使用什么调用方式呢？
         不是Dubbo，没使用Spring Cloud，没定义自己的 RPC
         用 RestTemplate
+
+注册中心
+    最开始解决的两个问题是： 如果提供者挂掉怎么办？ 如果消费者太多导致提供者响应变慢怎么办？
+
+
+
+01-provider-8081 是基于Spring Boot的提供者（未使用Spring Cloud）
+01-consumer-8081 是基于直连Provider的消费者（也未使用Spring Cloud）
+
+00-eurekaserver-8000 是建立了一个注册中心（基于Spring Cloud）
+02-provider-8081 基于Spring Cloud，注册到了 eureka上
+02-consumer-8081 基于Spring Cloud，从 eureka中取得注册表信息，然后调用提供者提供的服务
+
+00 定义Eureka服务端 总步骤
+    1 添加 Eureka Server 依赖           // Hoxton.SR5 等
+    2 在配置文件中配置 Eureka Server            // defaultZone
+    3 启动类上添加 @EnableEurekaServer 注解，启动 Eureka Server 功能。    // @EnableEurekaServer
+
+02 定义消费者工程 总步骤
+    1 添加 Eureka Client 依赖       // Hoxton.SR5 等
+    2 在配置文件中指定要注册的 Eureka Server 地址，指定自己微服务名称       // defaultZone      abcmysc-consumer-depart
+    3 在JavaConfig类中为 RestTemplate 添加 @LoadBalance 注解，实例负载均衡     // @LoadBalance
+    4 修改处理器，将"主机名:端口" -> 提供者微服务名称。      // SERVICE_PROVIDER
+
+02 定义提供者工程 总步骤
+    1 添加 Eureka Client 依赖
+    2 在配置文件中指定要注册的 Eureka Server 地址，指定自己微服务名称       // defaultZone      abcmysc-provider-depart

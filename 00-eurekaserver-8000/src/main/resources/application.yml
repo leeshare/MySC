@@ -1,0 +1,15 @@
+
+server:
+  port: 8000
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false     # 指定当前主机是否需要向Eureka Server注册自己。而我妈这个项目本身就是Eureka Server当然就不需要向 注册了。
+    fetch-registry: false       # 指定当前主机是否需要从Eureka Server 下载服务注册表
+    service-url:
+      # 当前Eureka Server对外暴露的服务地址
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+      # defaultZone: http://localhsot:8000/eureka
+
